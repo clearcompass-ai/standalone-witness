@@ -125,12 +125,16 @@ func postCosign(t *testing.T, h http.Handler, netID cosign.NetworkID, size uint6
 func buildTreeHeadRequestSimple(t *testing.T, netID cosign.NetworkID, size uint64) []byte {
 	t.Helper()
 	root := [32]byte{0xCC, 0xDD, 0xEE, 0xFF, byte(size)}
-	// WireTreeHeadPayload shape: {root_hash: hex, tree_size: int}.
-	innerPayload, err := json.Marshal(struct {
-		RootHash string `json:"root_hash"`
-		TreeSize uint64 `json:"tree_size"`
-	}{
+	// SMTRoot was added to the wire payload in attesta v0.7.0 and
+	// is rejected as all-zero by v0.8.0's producer-side fail-fast
+	// (dual-commitment binding requires both roots populated). The
+	// fixture supplies a deterministic non-zero value distinct from
+	// root_hash so a misordered field would surface as a clear
+	// hash-mismatch rather than a silent pass.
+	smtRoot := [32]byte{0x11, 0x22, 0x33, 0x44, byte(size)}
+	innerPayload, err := json.Marshal(cosign.WireTreeHeadPayload{
 		RootHash: hex.EncodeToString(root[:]),
+		SMTRoot:  hex.EncodeToString(smtRoot[:]),
 		TreeSize: size,
 	})
 	if err != nil {
