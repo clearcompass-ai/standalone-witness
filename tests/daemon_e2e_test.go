@@ -126,11 +126,14 @@ func TestDaemonE2E(t *testing.T) {
 	cosignURL := fmt.Sprintf("http://127.0.0.1:%d%s", port, cosign.DefaultCosignPath)
 
 	root := [32]byte{0xCA, 0xFE, 0xBA, 0xBE}
-	innerPayload, err := json.Marshal(struct {
-		RootHash string `json:"root_hash"`
-		TreeSize uint64 `json:"tree_size"`
-	}{
+	// SMTRoot (attesta v0.7.0) is the second commitment in the
+	// dual-commitment tree-head; v0.8.0's producer-side fail-fast
+	// rejects all-zero values. Use a distinct non-zero pattern so
+	// a misordered field surfaces as a hash mismatch, not a pass.
+	smtRoot := [32]byte{0xDE, 0xAD, 0xBE, 0xEF}
+	innerPayload, err := json.Marshal(cosign.WireTreeHeadPayload{
 		RootHash: hex.EncodeToString(root[:]),
+		SMTRoot:  hex.EncodeToString(smtRoot[:]),
 		TreeSize: 1234,
 	})
 	if err != nil {
@@ -175,11 +178,9 @@ func TestDaemonE2E(t *testing.T) {
 	// ── 6. Cosign rollback: a request with smaller TreeSize ────
 	// should be rejected with 409 Conflict by the monotonicity
 	// guard in internal/serve.
-	innerSmaller, err := json.Marshal(struct {
-		RootHash string `json:"root_hash"`
-		TreeSize uint64 `json:"tree_size"`
-	}{
+	innerSmaller, err := json.Marshal(cosign.WireTreeHeadPayload{
 		RootHash: hex.EncodeToString(root[:]),
+		SMTRoot:  hex.EncodeToString(smtRoot[:]),
 		TreeSize: 100, // smaller than the 1234 we just signed
 	})
 	if err != nil {
