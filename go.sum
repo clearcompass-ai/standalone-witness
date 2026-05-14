@@ -1,7 +1,7 @@
 github.com/bits-and-blooms/bitset v1.24.4 h1:95H15Og1clikBrKr/DuzMXkQzECs1M6hhoGXLwLQOZE=
 github.com/bits-and-blooms/bitset v1.24.4/go.mod h1:7hO7Gc7Pp1vODcmWvKMRA9BNmbv6a/7QIWpPxHddWR8=
-github.com/clearcompass-ai/attesta v1.2.0 h1:ODkFhAwJ0ZuKXeaR7vDUlKoIGfqjnsYQwGdmfQCH9m4=
-github.com/clearcompass-ai/attesta v1.2.0/go.mod h1:7pE41DqquoLBwe/jHC4gKAT6gZLLWuuyA/uErvDTV34=
+github.com/clearcompass-ai/attesta v1.5.1 h1:TRzbvS5QmqfVHMc/zOim4MJfu8ZEICrjEnhjfKGBle8=
+github.com/clearcompass-ai/attesta v1.5.1/go.mod h1:7pE41DqquoLBwe/jHC4gKAT6gZLLWuuyA/uErvDTV34=
 github.com/consensys/gnark-crypto v0.20.1 h1:PXDUBvk8AzhvWowHLWBEAfUQcV1/aZgWIqD6eMpXmDg=
 github.com/consensys/gnark-crypto v0.20.1/go.mod h1:RBWrSgy+IDbGR69RRV313th3M/aZU1ubk2om+qHuTSc=
 github.com/cyberphone/json-canonicalization v0.0.0-20241213102144-19d51d7fe467 h1:uX1JmpONuD549D73r6cgnxyUu18Zb7yHAy5AYU0Pm4Q=
