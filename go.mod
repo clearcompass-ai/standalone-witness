@@ -2,7 +2,7 @@ module github.com/clearcompass-ai/standalone-witness
 
 go 1.25.7
 
-require github.com/clearcompass-ai/attesta v1.5.1
+require github.com/clearcompass-ai/attesta v1.5.2
 
 require (
 	github.com/bits-and-blooms/bitset v1.24.4 // indirect
